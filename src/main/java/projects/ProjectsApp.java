@@ -13,26 +13,30 @@ import projects.service.ProjectService;
 
 
 public class ProjectsApp {
-	private Scanner scanner = new Scanner(System.in);
-	private ProjectService projectService = new ProjectService();
-
-	//aQ1  Delete DBconnection and 
-	//aQ2 Remove Import projects dao DBConn
-
+	  private Scanner scanner = new Scanner(System.in);
+	  private ProjectService projectService = new ProjectService();
+	  private Project curProject;
+	
+	//wk 9 aQ1  Delete DBconnection and 
+	//wk 9 aQ2 Remove Import projects dao DBConn
+    // Wk 10  New List updated 
 	// Formatter:off
 	private List<String> operations = List.of(
-		"1) Add a Project"
+		"1) Add a Project",
+		"2) List projects",
+		"3) Select a Project"
 	);
 	
 	// @formatter:on
 	
 	
-	//Q1 - Q4 Create Scanner & Method -->
+	//Wk 9 Q1 - Q4 Create Scanner & Method -->
 	
 	public static void main(String[] args) {
-		new ProjectsApp().processUserSelections(); 
-	}
-	// q5 Create method > 
+		    new ProjectsApp().processUserSelections();
+		  }
+		 
+	//wk 9  q5 Create method > 
 	
 	private void processUserSelections() {
 		boolean done = false;
@@ -49,6 +53,14 @@ public class ProjectsApp {
 			 case 1:
 				 createProject();
 				 break;
+				 // wk 10 New Case numbers 
+			 case 2:
+				 listProjects();
+				 break;
+				 
+			 case 3:
+				 selectProject();
+				 break;
 				 
 			default:
 				System.out.println("\n" + selection + " is not a vaild selection. Try Again.");
@@ -56,10 +68,37 @@ public class ProjectsApp {
 		 }
 		 catch(Exception e) {
 			 System.out.println("\nError: " + e + " Try again.");
+			 
+			 e.printStackTrace();
+			 
 		 }
 		}
 	}
 
+
+	//w10 Q1f   List projects 
+	
+	private void listProjects() {
+		List<Project> projects = projectService.fetchAllProjects();
+		
+		System.out.println("\nProjects:");
+		
+		projects.forEach(project -> System.out
+				.println("    " + project.getProjectId() + ": " + project.getProjectName()));
+	}
+	//wk10 Q4 
+	private void  selectProject() {
+		listProjects(); 
+		Integer projectId = getIntInput("Enter a project ID to select a project");
+		
+		//cancel selection
+		curProject = null;
+		
+		// Exception for invalid selection
+		curProject = projectService.fetchProjectById(projectId);
+	}
+	
+	
 	private void createProject() {
 		String projectName = getStringInput("Enter the project name");
 		BigDecimal estimateHours = getDecimalInput("Enter the Estimated hours");
@@ -80,7 +119,7 @@ public class ProjectsApp {
 		System.out.println("You have successfully created a project: " + dbProject);
 	}
 	
-	// Create method of Big decimal  set it back 00.2 to two decimal places
+	// wk9  Create method of Big decimal  set it back 00.2 to two decimal places
 	
 	private BigDecimal getDecimalInput(String prompt) {
 		String input = getStringInput(prompt);
@@ -109,7 +148,7 @@ public class ProjectsApp {
 		return Objects.isNull(input) ? -1 : input;
 	}
 	
-		// Q 7 User Inputs method objects
+		//wk9  Q 7 User Inputs method objects
 	private Integer getIntInput(String prompt) {
 		 String input = getStringInput(prompt);
 			
@@ -125,7 +164,7 @@ public class ProjectsApp {
 			}
 		}
 
-		// Q8 Print Methods Prints Prompts 
+		//wk9 Q8 Print Methods Prints Prompts 
 		
 		private String getStringInput(String prompt) {
 			System.out.println(prompt + ": ");
@@ -134,12 +173,23 @@ public class ProjectsApp {
 			return input.isBlank() ? null : input.trim();
 		}
 		
-		//Q6 Create Print Menu Method 
+		//wk9 Q6 Create Print Menu Method 
 		
 		private void printOperations() {
 			System.out.println("\nThese are the available Selections. Press the Enter key to quit:");
+			
+			//wk 9  Lambda express. ( not the Lambada dance) 
+			
 			operations.forEach(line -> System.out.println("  " +line));
-		
+			
+		// w10 New Print lines for Project Selections
+			
+			if(Objects.isNull(curProject)) {
+				System.out.println("\nYou are not working with a project.");
+			}
+			else {
+				System.out.println("\nYou are working with a project: " + curProject);
+			}
 		}	
 	
 }

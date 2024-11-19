@@ -25,7 +25,7 @@ public class ProjectDao extends DaoBase {
 	private static final String PROJECT_CATEGORY_TABLE = "project_category";
 	private static final String	STEP_TABLE = "step";
 	
-	//  Insert row for Project Table
+	// W10 Insert row for Project Table
 	
 public Project insertProject(Project project) {
 	// @formatter:off 
@@ -48,7 +48,7 @@ public Project insertProject(Project project) {
 			stmt.executeUpdate();
 			
 			Integer projectId = getLastInsertId(conn, PROJECT_TABLE);
-			
+			commitTransaction(conn);
 			project.setProjectId(projectId);
 			return project;
 		}
@@ -107,7 +107,7 @@ public Optional<Project> fetchProjectById(Integer projectId) {
 private List<Category> fetchCategoriesForProject(Connection conn, Integer projectId) {
 	    // @formatter:off
 	    String sql = ""
-	        + "SELECT c.* FROM " + CATEGORY_TABLE + " c "
+	        + "SELECT c.* FROM " + CATEGORY_TABLE + "  c "
 	        + "JOIN " + PROJECT_CATEGORY_TABLE + " pc USING (category_id) "
 	        + "WHERE project_id = ?";
 	    // @formatter:on
@@ -133,7 +133,7 @@ private List<Category> fetchCategoriesForProject(Connection conn, Integer projec
 //Q10 Step  methods
 	
 private List<Step> fetchStepsForProject(Connection conn, Integer projectId) throws SQLException {
-	String sql = "SELECT * FROM  " + STEP_TABLE + "WHERE project_id = ?";
+	String sql = "SELECT * FROM " + STEP_TABLE + " WHERE project_id = ?";
 	
 	try(PreparedStatement stmt = conn.prepareStatement(sql)) {
 	      setParameter(stmt, 1, projectId, Integer.class);

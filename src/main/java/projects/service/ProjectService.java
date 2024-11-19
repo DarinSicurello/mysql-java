@@ -20,7 +20,7 @@ public class ProjectService {
 	public List<Project> fetchAllProjects() {
 	    return projectDao.fetchAllProjects();
 	  }
-    // wk 10 New exception w/  Lamada Express ... 
+    // wk 10 New exception w/  Lambda Expression ... 
 	
 	//Optional<Project> op projectDao.fetchProjectById(projectId);
 	//return null;

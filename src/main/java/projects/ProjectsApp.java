@@ -83,8 +83,7 @@ public class ProjectsApp {
 		
 		System.out.println("\nProjects:");
 		
-		projects.forEach(project -> System.out
-				.println("    " + project.getProjectId() + ": " + project.getProjectName()));
+		projects.forEach(project -> System.out.println("    " + project.getProjectId() + ": " + project.getProjectName()));
 	}
 	//wk10 Q4 
 	private void  selectProject() {
@@ -114,7 +113,7 @@ public class ProjectsApp {
 		project.setDifficulty(difficulty);
 		project.setNotes(notes);
 		
-		//ProjectService projectService = null;
+		// rojectService projectService = null;
 		Project dbProject = projectService.addProject(project);
 		System.out.println("You have successfully created a project: " + dbProject);
 	}
@@ -178,7 +177,7 @@ public class ProjectsApp {
 		private void printOperations() {
 			System.out.println("\nThese are the available Selections. Press the Enter key to quit:");
 			
-			//wk 9  Lambda express. ( not the Lambada dance) 
+			//wk 9  Lambda expression ( not the Lambda dance) 
 			
 			operations.forEach(line -> System.out.println("  " +line));
 			
